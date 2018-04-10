@@ -147,7 +147,7 @@ class ATMController:
         def confirm_dep():
             self.dep_pend = float(dep_amount.get())
             self.account_db[LOG_ACCNUM]['acc_balance'] += self.dep_pend
-            self.transactions.append(['Deposited', self.wd_pend])
+            self.transactions.append(['Deposited', self.dep_pend])
             self.atm_gui.account_balance['text'] = 'Account Balance: ${}'.format(
                 self.account_db[LOG_ACCNUM]['acc_balance'])
             ROOT.update()
