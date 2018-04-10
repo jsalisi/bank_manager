@@ -1,5 +1,5 @@
 from time import localtime, strftime
-from accounts.constants.transaction_types import *
+from model.constants.transaction_types import *
 
 
 class TransactionLog:
