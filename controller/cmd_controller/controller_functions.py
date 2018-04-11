@@ -1,13 +1,19 @@
 from os import system
 from views.cmd_interface.cmd_views import CommandLinePrompts
+from model import (Chequing, Savings, TermSavings)
 
 
 class ControllerFunctions:
 
     def __init__(self):
         self.view = CommandLinePrompts()
+        self.teller_id = ""
         self.current_user_mod = ""
         self.login_status = False
+
+    def display_help(self):
+        system('cls')
+        print(self.view.help())
 
     def login(self):
         while self.login_status is False:
@@ -16,42 +22,45 @@ class ControllerFunctions:
             passwd = self.view.login_passwd()
 
             if int(id) == 12345 and int(passwd) == 12345:
+                self.teller_id = int(id)
                 self.login_status = True
                 system('cls')
+            else:
+                self.view.error("Login Failed.")
 
     def logout(self):
         self.login_status = False
 
-    def main_menu(self):
-        system('cls')
-        self.view.main_prompt()
+    def usercfg(self, *args):
+        if len(args) > 1:
+            if args[1] == 'adduser':
+                system('cls')
+                self.view.add_user_num()
+                self.view.add_user_pin()
+            elif args[1] == 'deluser':
+                system('cls')
+                self.view.del_user(self.current_user_mod)
 
-    def usercfg(self):
-        system('cls')
-        self.current_user_mod = self.view.user_id
-        self.view.config_user(self.current_user_mod)
+        else:
+            system('cls')
+            self.current_user_mod = self.view.user_id()
+            system('cls')
+            self.view.config_user(self.current_user_mod)
 
-    def accountcfg(self):
+    def accountcfg(self, *args):
+        if len(args) > 1:
+            if args[1] == 'addaccount':
+                choice = self.view.accounts()
+            elif args[1] == 'delaccount':
+                choice = self.view.accounts()
+        else:
+            system('cls')
+            self.view.manage_accounts(self.current_user_mod)
+        
+    def withdraw(self, *args):
         system('cls')
-        self.view.manage_accounts(self.current_user_mod)
+        print('withdraw', " ".join(args))
 
-    def useradd(self):
+    def deposit(self, *args):
         system('cls')
-        self.view.add_user_num()
-        self.view.add_user_pin()
-
-    def userdel(self):
-        system('cls')
-        self.view.del_user(self.current_user_mod)
-
-    def withdraw(self):
-        system('cls')
-        print('withdraw')
-
-    def deposit(self):
-        system('cls')
-        print('deposit')
-
-    def display_help(self):
-        system('cls')
-        print(self.view.help())
+        print('deposit', " ".join(args))
