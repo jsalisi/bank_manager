@@ -13,7 +13,7 @@ class CommandLinePrompts:
 
     # Help
     def help(self):
-        cmd_usercfg =    '      usrcfg [OPTIONS]                            - Opens the user configuration menu'
+        cmd_usercfg =    '      usercfg [OPTIONS]                           - Opens the user configuration menu'
         cmd_useradd =    '          - adduser [card number]                 - Add new bank user'
         cmd_userdel =    '          - deluser [card number]                 - Delete existing bank user\n'
 
@@ -43,14 +43,14 @@ class CommandLinePrompts:
 
     # usrcfg prompt
     def manage_users(self):
-        return int(input("Manage Users\n\n1.) Configure Existing User\n2.) Add User\n3.) Delete User\n\n0.) Return\n\nEnter Command: "))
+        return int(input("Manage Users\n\n1.) Edit User\n2.) Add User\n3.) Delete User\n\nEnter Choice: "))
 
     # Configure Existing User
     def user_id(self):
         return int(input("User ID: "))
 
     def config_user(self, user_id):
-        return int(input("Configuring {}\n\n1.) Manage Accounts\n2.) Transaction Logs\n3.) Delete User\n\n0.) Return\n\nEnter Command: ".format(user_id)))
+        return int(input("Configuring {}\n\n1.) Manage Accounts\n2.) Transaction Logs\n3.) Delete User\n\nEnter Choice: ".format(user_id)))
 
     # Add User
     def add_user_num(self):
@@ -65,7 +65,7 @@ class CommandLinePrompts:
 
     # Manage Accounts
     def manage_accounts(self, user_id):
-        return int(input("Manage Accounts\n\n1.) Display Accounts\n2.) Add Account\n3.) Delete Account\n\n0.) Return\n\nEnter Command: "))
+        return int(input("Manage Accounts\n\n1.) Display Accounts\n2.) Add Account\n3.) Delete Account\n\nEnter Choice: "))
 
     # Display Accounts
     def display_accounts(self, accounts):
@@ -76,4 +76,4 @@ class CommandLinePrompts:
 
     # Add / Delete Account
     def accounts(self):
-        return input("Accounts\n\n1.) Chequing\n\2.) Savings\n\3.) Term Savings\n\n0.) Return\n\nEnter Command: ")
+        return input("Accounts\n\n1.) Chequing\n\2.) Savings\n\3.) Term Savings\n\nEnter Choice: ")

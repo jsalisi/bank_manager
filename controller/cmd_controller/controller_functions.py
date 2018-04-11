@@ -32,35 +32,50 @@ class ControllerFunctions:
         self.login_status = False
 
     def usercfg(self, *args):
-        if len(args) > 1:
-            if args[1] == 'adduser':
+        try:
+            if args[0][1] == 'adduser':
                 system('cls')
                 self.view.add_user_num()
                 self.view.add_user_pin()
-            elif args[1] == 'deluser':
+            elif args[0][1] == 'deluser':
                 system('cls')
                 self.view.del_user(self.current_user_mod)
 
-        else:
+        except IndexError:
             system('cls')
-            self.current_user_mod = self.view.user_id()
-            system('cls')
-            self.view.config_user(self.current_user_mod)
+            res = self.view.manage_users()
+            
+            if res == 1:
+                system('cls')
+                self.current_user_mod = self.view.user_id()
+                system('cls')
+                self.view.config_user(self.current_user_mod)
+
+            elif res == 2:
+                system('cls')
+                self.view.add_user_num()
+                self.view.add_user_pin()
+            
+            elif res == 3:
+                system('cls')
+                self.view.del_user(self.current_user_mod)
 
     def accountcfg(self, *args):
-        if len(args) > 1:
-            if args[1] == 'addaccount':
+        try:
+            if args[0][1] == 'addaccount':
+                system('cls')
                 choice = self.view.accounts()
-            elif args[1] == 'delaccount':
+            elif args[0][1] == 'delaccount':
+                system('cls')
                 choice = self.view.accounts()
-        else:
+        except IndexError:
             system('cls')
             self.view.manage_accounts(self.current_user_mod)
         
     def withdraw(self, *args):
         system('cls')
-        print('withdraw', " ".join(args))
+        print('withdraw', " ".join(args[0]))
 
     def deposit(self, *args):
         system('cls')
-        print('deposit', " ".join(args))
+        print('deposit', " ".join(args[0]))

@@ -10,12 +10,11 @@ class CommandLineController:
     def __init__(self):
         self.view = CommandLinePrompts()
         self.functions = ControllerFunctions()
-        self.show_help = True
         self.cmd = "help"
         self.commands = {
             'help':          self.functions.display_help,
             'logout':        self.functions.logout,
-            'usrcfg':        self.functions.usercfg,
+            'usercfg':        self.functions.usercfg,
             'accountcfg':    self.functions.accountcfg,
             'withdraw':      self.functions.withdraw,
             'deposit':       self.functions.deposit
@@ -28,11 +27,8 @@ class CommandLineController:
         while True:
             self.functions.login()
 
-            if self.show_help == True:
-                self.commands['help']()
-                self.show_help = False
-            else:
-                system('cls')
+            system('cls')
+            self.commands['help']()
 
             try:
                 self.process_cmd(self.view.cmd_input(self.functions.teller_id))
@@ -53,5 +49,4 @@ class CommandLineController:
                     self.view.error("No command.")
 
             except KeyError:
-                self.view.error(
-                    '\'{}\' not a command.'.format(' '.join(self.cmd)))
+                self.view.error('\'{}\' not a command.'.format(' '.join(self.cmd)))
