@@ -1,9 +1,11 @@
 # This is the file that runs the Command Line Interface
 
-import getpass
-from controller.cmd_controller import *
-from views.cmd_interface import *
+from controller.cmd_controller import CommandLineController
 
-test = getpass.getpass("\nPassword: ")
+def main():
+    cmd_ctrl = CommandLineController()
+    cmd_ctrl.run()
 
-print("\n", test)
+if __name__ == "__main__":
+    main()
+
