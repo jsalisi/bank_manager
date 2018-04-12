@@ -14,7 +14,7 @@ class CommandLineController:
         self.commands = {
             'help':          self.functions.display_help,
             'logout':        self.functions.logout,
-            'usercfg':        self.functions.usercfg,
+            'usercfg':       self.functions.usercfg,
             'accountcfg':    self.functions.accountcfg,
             'withdraw':      self.functions.withdraw,
             'deposit':       self.functions.deposit

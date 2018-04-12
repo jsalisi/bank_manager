@@ -21,7 +21,7 @@ class ControllerFunctions:
             id = self.view.login_id()
             passwd = self.view.login_passwd()
 
-            if int(id) == 12345 and int(passwd) == 12345:
+            if int(id) == 1234 and int(passwd) == 1234:
                 self.teller_id = int(id)
                 self.login_status = True
                 system('cls')
@@ -62,6 +62,9 @@ class ControllerFunctions:
 
     def accountcfg(self, *args):
         try:
+            if args[0][1] == 'chkbal':
+                system('cls')
+                self.view.get_balance("Chequing", 400)
             if args[0][1] == 'addaccount':
                 system('cls')
                 choice = self.view.accounts()

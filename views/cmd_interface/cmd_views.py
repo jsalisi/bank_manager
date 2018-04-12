@@ -9,7 +9,7 @@ class CommandLinePrompts:
 
     # Command Input
     def cmd_input(self, teller_id):
-        return input('\n\n{}@Bank: '.format(teller_id))
+        return input('\n{}@Bank: '.format(teller_id))
 
     # Help
     def help(self):
@@ -18,6 +18,7 @@ class CommandLinePrompts:
         cmd_userdel =    '          - deluser [card number]                 - Delete existing bank user\n'
 
         cmd_accountcfg = '      accountcfg [OPTIONS]                        - Opens the account configuration menu'
+        cmd_chkbalance = '          - chkbal [account number]               - Returns the balance of the specified account'
         cmd_createacc =  '          - addaccount [account number]           - Add a new account to a user'
         cmd_deleteacc =  '          - delaccount [account number]           - Delete existing account from user\n'
         
@@ -27,7 +28,7 @@ class CommandLinePrompts:
         cmd_logout =     '      logout                                      - Logs out of account'
         cmd_help =       '      help                                        - Displays list of all commands'
         cmd_exit =       '      exit                                        - Closes the program'
-        return "System Commands: \n\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}".format(cmd_usercfg, cmd_useradd, cmd_userdel, cmd_accountcfg, cmd_createacc, cmd_deleteacc, cmd_withdraw, cmd_deposit, cmd_logout, cmd_help, cmd_exit)
+        return "System Commands: \n\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}".format(cmd_usercfg, cmd_useradd, cmd_userdel, cmd_accountcfg, cmd_chkbalance, cmd_createacc, cmd_deleteacc, cmd_withdraw, cmd_deposit, cmd_logout, cmd_help, cmd_exit)
 
     # Display Error
     def error(self, err):
@@ -50,7 +51,7 @@ class CommandLinePrompts:
         return int(input("User ID: "))
 
     def config_user(self, user_id):
-        return int(input("Configuring {}\n\n1.) Manage Accounts\n2.) Transaction Logs\n3.) Delete User\n\nEnter Choice: ".format(user_id)))
+        return int(input("Configuring {}\n\n1.) Manage Accounts\n2.) Check Balance\n3.) Transaction Logs\n4.) Delete User\n\nEnter Choice: ".format(user_id)))
 
     # Add User
     def add_user_num(self):
@@ -77,3 +78,7 @@ class CommandLinePrompts:
     # Add / Delete Account
     def accounts(self):
         return input("Accounts\n\n1.) Chequing\n\2.) Savings\n\3.) Term Savings\n\nEnter Choice: ")
+
+    # Check Balance
+    def get_balance(self, account, balance):
+        return input("{} account balance: ${}. Press Enter to continue.".format(account, balance))
