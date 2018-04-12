@@ -6,6 +6,16 @@ from model import (Chequing, Savings, TermSavings)
 class ControllerFunctions:
 
     def __init__(self):
+        self.chq = Chequing()
+        self.sav = Savings()
+        self.tsav = TermSavings()
+
+        self.model = {
+            444001: self.chq,
+            555001: self.sav,
+            655001: self.tsav
+        }
+
         self.view = CommandLinePrompts()
         self.teller_id = ""
         self.current_card_num = ""
@@ -77,7 +87,16 @@ class ControllerFunctions:
             self.view.error("Command not specified.")
         
     def withdraw(self, *args):
-        print('withdraw', " ".join(args[0]))
+        try:
+            self.model[float(args[0][1])].withdraw(float(args[0][2]))
+        except:
+            self.view.error("Error: Parameters were not met.")
+            print(self.view.withdraw_help())
 
     def deposit(self, *args):
-        print('deposit', " ".join(args[0]))
+        try:
+            print(args)
+            self.model[float(args[0][1])].deposit(float(args[0][2]))
+        except:
+            self.view.error("Error: Parameters were not met.")
+            print(self.view.deposit_help())
