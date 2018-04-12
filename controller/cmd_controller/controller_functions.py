@@ -8,11 +8,12 @@ class ControllerFunctions:
     def __init__(self):
         self.view = CommandLinePrompts()
         self.teller_id = ""
-        self.current_user_mod = ""
+        self.current_card_num = ""
         self.login_status = False
 
     def display_help(self):
-        system('cls')
+        print(self.view.usercfg_help())
+        print(self.view.accountcfg_help())
         print(self.view.help())
 
     def login(self):
@@ -21,8 +22,8 @@ class ControllerFunctions:
             id = self.view.login_id()
             passwd = self.view.login_passwd()
 
-            if int(id) == 1234 and int(passwd) == 1234:
-                self.teller_id = int(id)
+            if id == 'admin' and int(passwd) == 1234:
+                self.teller_id = id
                 self.login_status = True
                 system('cls')
             else:
@@ -33,52 +34,50 @@ class ControllerFunctions:
 
     def usercfg(self, *args):
         try:
-            if args[0][1] == 'adduser':
-                system('cls')
+            if args[0][1] == 'info':
+                print("\nDisplaying User Info: ")
+            elif args[0][1] == 'edit':
+                self.current_card_num = self.view.user_id()
+                choice = int(self.view.config_user(self.current_card_num))
+
+                if choice == 1:
+                    self.view.display_accounts(['Chq', 'Sav'], self.current_card_num)
+                elif choice == 2:
+                    print('Displaying Transaction Logs ')
+                elif choice == 3:
+                    self.view.del_user(self.current_card_num)
+            elif args[0][1] == 'add':
                 self.view.add_user_num()
                 self.view.add_user_pin()
-            elif args[0][1] == 'deluser':
-                system('cls')
-                self.view.del_user(self.current_user_mod)
+            elif args[0][1] == 'del':
+                self.current_card_num = self.view.user_id()
+                self.view.del_user(self.current_card_num)
 
         except IndexError:
-            system('cls')
-            res = self.view.manage_users()
-            
-            if res == 1:
-                system('cls')
-                self.current_user_mod = self.view.user_id()
-                system('cls')
-                self.view.config_user(self.current_user_mod)
-
-            elif res == 2:
-                system('cls')
-                self.view.add_user_num()
-                self.view.add_user_pin()
-            
-            elif res == 3:
-                system('cls')
-                self.view.del_user(self.current_user_mod)
+            self.view.error("Command not specified.")
 
     def accountcfg(self, *args):
         try:
-            if args[0][1] == 'chkbal':
-                system('cls')
+            if args[0][1] == 'info':
+                self.current_card_num = self.view.user_id()
+                c = self.view.display_accounts(['Chq', 'Sav'], self.current_card_num)
+                print(c)
+            elif args[0][1] == 'transact':
+                self.current_card_num = self.view.user_id()
+                c = self.view.display_accounts(['Chq', 'Sav'], self.current_card_num)
+                print(c)
+            elif args[0][1] == 'bal':
+                self.current_card_num = self.view.user_id()
                 self.view.get_balance("Chequing", 400)
-            if args[0][1] == 'addaccount':
-                system('cls')
-                choice = self.view.accounts()
-            elif args[0][1] == 'delaccount':
-                system('cls')
-                choice = self.view.accounts()
+            elif args[0][1] == 'add':
+                self.view.accounts()
+            elif args[0][1] == 'del':
+                self.view.accounts()
         except IndexError:
-            system('cls')
-            self.view.manage_accounts(self.current_user_mod)
+            self.view.error("Command not specified.")
         
     def withdraw(self, *args):
-        system('cls')
         print('withdraw', " ".join(args[0]))
 
     def deposit(self, *args):
-        system('cls')
         print('deposit', " ".join(args[0]))
