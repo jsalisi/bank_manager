@@ -89,8 +89,12 @@ class ControllerFunctions:
                 print(c)
             elif args[0][1] == 'bal':
                 self.current_card_num = self.view.user_id()
-                a = self.acc_db._accountdb[self.current_card_num][0][2]
-                b = self.acc_db._accountdb[self.current_card_num][0][3]
+                accs = []
+                for ac in self.acc_db._accountdb[self.current_card_num]:
+                    accs.append(ac.acc_type)
+                c = int(self.view.display_accounts(accs, self.current_card_num))
+                a = self.acc_db._accountdb[self.current_card_num][c].acc_type
+                b = self.acc_db._accountdb[self.current_card_num][c].get_balance
                 self.view.get_balance(a, b)
             elif args[0][1] == 'add':
                 self.view.accounts()
