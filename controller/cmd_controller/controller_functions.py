@@ -1,14 +1,18 @@
 from os import system
 from views.cmd_interface.cmd_views import CommandLinePrompts
-from model import (Chequing, Savings, TermSavings)
+
+from model.account import AccountBalance
+from model.chequing import Chequing
+from model.savings import Savings
+from model.term_savings import TermSavings
 
 
 class ControllerFunctions:
 
     def __init__(self):
-        self.chq = Chequing()
-        self.sav = Savings()
-        self.tsav = TermSavings()
+        self.chq = Chequing("Justin", "Salisi", 500, 12345)
+        self.sav = Savings("Justin", "Salisi", 500, 12345)
+        self.tsav = TermSavings("Justin", "Salisi", 500, 12345)
 
         self.model = {
             444001: self.chq,
@@ -78,7 +82,7 @@ class ControllerFunctions:
                 print(c)
             elif args[0][1] == 'bal':
                 self.current_card_num = self.view.user_id()
-                self.view.get_balance("Chequing", 400)
+                self.view.get_balance("Chequing", self.chq.get_balance)
             elif args[0][1] == 'add':
                 self.view.accounts()
             elif args[0][1] == 'del':

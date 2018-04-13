@@ -1,6 +1,6 @@
-from account import AccountBalance
-from chequing import Chequing
-from savings import Savings
+from model.account import AccountBalance
+from model.chequing import Chequing
+from model.savings import Savings
 
 FILE = 'account_info.csv'
 

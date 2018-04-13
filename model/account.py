@@ -1,5 +1,7 @@
-from transactions.transaction_log import TransactionLog
-from constants import *
+from model.transactions.transaction_log import TransactionLog
+from model.constants.fees_consts import *
+from model.constants.interest_consts import *
+from model.constants.transaction_types import *
 import csv
 import os
 
@@ -78,7 +80,7 @@ class AccountBalance:
         return
 
     def update_init(self, FILE):
-        with open(os.path.join('Accounts', FILE), 'a', newline='') as myfile:
+        with open(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE)), 'a', newline='') as myfile:
             acc_num = str(self.acc_num)
             name = self.acc_name
             balance = str(self.acc_bal)
@@ -91,8 +93,7 @@ class AccountBalance:
 
     def write_new_file(self, FILE):
         header = ['acc_name', 'acc_number', 'acc_type', 'PIN', 'balance']
-        with open(os.path.join('Accounts', FILE), 'w', newline='') as myfile:
+        with open(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE)), 'w', newline='') as myfile:
             writer = csv.writer(myfile)
             writer.writerow(header)
         return
-

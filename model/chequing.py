@@ -1,6 +1,8 @@
-from account import AccountBalance
-from .transactions.transaction_log import TransactionLog
-from .constants import *
+from model.account import AccountBalance
+from model.transactions.transaction_log import TransactionLog
+from model.constants.fees_consts import *
+from model.constants.interest_consts import *
+from model.constants.transaction_types import *
 import os.path
 
 FILE = 'account_info.csv'

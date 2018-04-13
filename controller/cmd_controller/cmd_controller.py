@@ -3,7 +3,11 @@
 from os import system
 from views.cmd_interface.cmd_views import CommandLinePrompts
 from .controller_functions import ControllerFunctions
-from model import (Chequing, Savings, TermSavings)
+
+from model.account import AccountBalance
+from model.chequing import Chequing
+from model.savings import Savings
+from model.term_savings import TermSavings
 
 class CommandLineController:
 

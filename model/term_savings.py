@@ -1,7 +1,9 @@
 from time import localtime, strptime
-from .account import AccountBalance
-from .savings import Savings
-from .constants import *
+from model.account import AccountBalance
+from model.savings import Savings
+from model.constants.fees_consts import *
+from model.constants.interest_consts import *
+from model.constants.transaction_types import *
 
 
 class TermSavings(Savings):
@@ -9,8 +11,8 @@ class TermSavings(Savings):
 
     _TIME_PERIOD = 60
 
-    def __init__(self, acc_fname: str = "", acc_lname: str = "", acc_bal: float = 0):
-        super().__init__(acc_fname, acc_lname, acc_bal)
+    def __init__(self, acc_fname: str = "", acc_lname: str = "", acc_bal: float = 0, PIN: int=0000):
+        super().__init__(acc_fname, acc_lname, acc_bal, PIN)
 
         self.acc_type = AccountBalance._TERM_SAViNGS
 

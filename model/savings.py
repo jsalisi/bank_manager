@@ -1,6 +1,8 @@
-from account import AccountBalance
-from .transactions.transaction_log import TransactionLog
-from .constants import *
+from model.account import AccountBalance
+from model.transactions.transaction_log import TransactionLog
+from model.constants.fees_consts import *
+from model.constants.interest_consts import *
+from model.constants.transaction_types import *
 import os.path
 
 FILE = 'account_info.csv'
@@ -17,9 +19,9 @@ class Savings(AccountBalance):
         AccountBalance._SAVINGS_ACC_NUM += 1
         self.acc_num = AccountBalance._SAVINGS_ACC_NUM
 
-        if os.path.isfile(os.path.join('Accounts', FILE)):
+        if os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
             self.update_init(FILE)
-        elif not os.path.isfile(os.path.join('Accounts', FILE)):
+        elif not os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
             self.write_new_file(FILE)
             self.update_init(FILE)
         return
