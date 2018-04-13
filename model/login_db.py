@@ -9,6 +9,7 @@ class Login_DB:
         self._logindb = {}
         self._card_num = ''
         self._PIN = ''
+        self.read_file(FILE)
 
     def read_file(self, file):
         with open(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', file)), 'r',

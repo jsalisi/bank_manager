@@ -8,6 +8,9 @@ from model.term_savings import TermSavings
 import os
 import os.path
 import csv
+from model.teller_db import Teller_DB
+from model.account_db import Account_DB
+from model.login_db import Login_DB
 
 FILE = 'account_login.csv'
 
@@ -15,15 +18,18 @@ FILE = 'account_login.csv'
 class ControllerFunctions:
 
     def __init__(self):
-        self.chq = Chequing("Justin", "j", 12345)
-        self.sav = Savings("Justin", "j", 12345)
-        self.tsav = TermSavings("Justin", "j", 12345)
+        # self.chq = Chequing("Justin", "j", 12345)
+        # self.sav = Savings("Justin", "j", 12345)
+        # self.tsav = TermSavings("Justin", "j", 12345)
 
-        self.model = {
-            444001: self.chq,
-            555001: self.sav,
-            655001: self.tsav
-        }
+        # self.model = {
+        #     444001: self.chq,
+        #     555001: self.sav,
+        #     655001: self.tsav
+        # }
+        self.log_db = Teller_DB()
+        self.acc_db = Account_DB()
+        self.acc_login_db = Login_DB()
 
         self.view = CommandLinePrompts()
         self.teller_id = ""
@@ -41,7 +47,7 @@ class ControllerFunctions:
             id = self.view.login_id()
             passwd = self.view.login_passwd()
 
-            if id == 'admin' and int(passwd) == 1234:
+            if (id in self.log_db._tellerdb) and (self.log_db._tellerdb[id] == passwd):
                 self.teller_id = id
                 self.login_status = True
                 system('cls')
@@ -56,11 +62,12 @@ class ControllerFunctions:
             if args[0][1] == 'info':
                 print("\nDisplaying User Info: ")
             elif args[0][1] == 'edit':
+                print(self.acc_db._accountdb)
                 self.current_card_num = self.view.user_id()
-                choice = int(self.view.config_user(self.current_card_num))
+                choice = self.view.config_user(self.current_card_num)
 
                 if choice == 1:
-                    self.view.display_accounts(['Chq', 'Sav'], self.current_card_num)
+                    self.view.display_accounts(self.acc_db._accountdb[self.current_card_num], self.current_card_num)
                 elif choice == 2:
                     print('Displaying Transaction Logs ')
                 elif choice == 3:
@@ -87,7 +94,9 @@ class ControllerFunctions:
                 print(c)
             elif args[0][1] == 'bal':
                 self.current_card_num = self.view.user_id()
-                self.view.get_balance("Chequing", self.chq.get_balance)
+                a = self.acc_db._accountdb[self.current_card_num][0][2]
+                b = self.acc_db._accountdb[self.current_card_num][0][3]
+                self.view.get_balance(a, b)
             elif args[0][1] == 'add':
                 self.view.accounts()
             elif args[0][1] == 'del':

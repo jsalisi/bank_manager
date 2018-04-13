@@ -11,8 +11,8 @@ class TermSavings(Savings):
 
     _TIME_PERIOD = 60
 
-    def __init__(self, acc_fname: str = "", acc_lname: str = "", acc_bal: float = 0, PIN: int=0000):
-        super().__init__(acc_fname, acc_lname, acc_bal, PIN)
+    def __init__(self, acc_fname: str = "", acc_lname: str = "", acc_bal: float = 0):
+        super().__init__(acc_fname, acc_lname, acc_bal)
 
         self.acc_type = AccountBalance._TERM_SAViNGS
 

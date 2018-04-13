@@ -34,6 +34,7 @@ class CommandLineController:
 
             if self.startup == True:
                 print(self.view.startup_prompt())
+                self.commands['help']()
                 self.startup = False
 
             try:

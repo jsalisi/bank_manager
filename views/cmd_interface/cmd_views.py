@@ -12,7 +12,7 @@ class CommandLinePrompts:
         return input('\n[{}.BoJoBank]: '.format(teller_id))
 
     def  startup_prompt(self):
-        return "\nType \'help\' for more information."
+        return "\nSystem Commands:\n"
 
     # Help
     def help(self):        
@@ -81,4 +81,4 @@ class CommandLinePrompts:
 
     # Check Balance
     def get_balance(self, account, balance):
-        return input("{} Balance: ${}. Press Enter to continue.".format(account, balance))
+        return input("\n{} Balance: ${}. Press Enter to continue.".format(account, balance))

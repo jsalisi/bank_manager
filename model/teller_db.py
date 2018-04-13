@@ -9,6 +9,7 @@ class Teller_DB:
         self._tellerdb = {}
         self._id = ''
         self._pass = ''
+        self.read_file(FILE)
 
     def read_file(self, file):
         with open(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', file)), 'r',
