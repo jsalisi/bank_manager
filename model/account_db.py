@@ -38,7 +38,27 @@ class Account_DB:
                     self._accountdb[lines[0]] = [new_acc]
         return
 
+    def write_new_file(self, file):
+        header = ['card_num', 'acc_name', 'acc_number', 'acc_type', 'balance']
+        with open(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', file)), 'w',
+                  newline='') as myfile:
+            writer = csv.writer(myfile)
+            writer.writerow(header)
+
+            for key, val in self._accountdb.items():
+                for item in val:
+                    if item.acc_type == 'Savings':
+                        row = [key, item.acc_name, str(item.acc_num), item.acc_type, str(item.acc_bal)]
+                        writer.writerow(row)
+                        print(row)
+                    elif item.acc_type == 'Chequing':
+                        row = [key, item.acc_name, str(item.acc_num), item.acc_type, str(item.acc_bal)]
+                        writer.writerow(row)
+                        print(row)
+        return
+
+
 if __name__ == '__main__':
     db = Account_DB()
-    db.read_file(FILE)
     print(db._accountdb)
+    db.write_new_file(FILE)
