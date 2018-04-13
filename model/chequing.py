@@ -19,9 +19,9 @@ class Chequing(AccountBalance):
         AccountBalance._CHEQUING_ACC_NUM += 1
         self.acc_num = AccountBalance._CHEQUING_ACC_NUM
 
-        if os.path.isfile(os.path.join('Accounts', FILE)):
+        if os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
             self.update_init(FILE)
-        elif not os.path.isfile(os.path.join('Accounts', FILE)):
+        elif not os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
             self.write_new_file(FILE)
             self.update_init(FILE)
 

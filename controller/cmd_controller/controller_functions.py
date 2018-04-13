@@ -10,9 +10,9 @@ from model.term_savings import TermSavings
 class ControllerFunctions:
 
     def __init__(self):
-        self.chq = Chequing("Justin", "Salisi", 500, 12345)
-        self.sav = Savings("Justin", "Salisi", 500, 12345)
-        self.tsav = TermSavings("Justin", "Salisi", 500, 12345)
+        self.chq = Chequing("Justin", "j", 500, 12345)
+        self.sav = Savings("Justin", "j", 500, 12345)
+        self.tsav = TermSavings("Justin", "j", 500, 12345)
 
         self.model = {
             444001: self.chq,
