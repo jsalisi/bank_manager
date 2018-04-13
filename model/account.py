@@ -22,11 +22,12 @@ class AccountBalance:
     _TERM_SAVINGS_ACC_NUM = 655000
     _CHEQUING_ACC_NUM = 444000
 
-    def __init__(self, acc_fname, acc_lname, acc_bal, PIN):
+    def __init__(self, acc_fname, acc_lname, acc_bal):
         try:
             self.acc_name = "{} {}".format(acc_fname, acc_lname)
             self.acc_bal = acc_bal
-            self._PIN = PIN
+            self._PIN = ''
+            self._card_num = ''
         except (ValueError, TypeError):
             print("Invalid input.")
 

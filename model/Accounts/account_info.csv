@@ -1,4 +1,5 @@
-acc_name,acc_number,acc_type,PIN,balance
-Justin Salisi,444001,Chequing,12345,500
-Justin Salisi,555001,Savings,12345,500
-Justin Salisi,555002,Savings,12345,500
+card_num,acc_name,acc_number,acc_type,balance
+1234123412341234,Justin Salisi,444001,Chequing,500
+1234123412341234,Justin Salisi,555003,Savings,500
+2345234523452345,Justin Salisi,555001,Savings,500
+3456345634563456,Justin Salisi,555002,Savings,500

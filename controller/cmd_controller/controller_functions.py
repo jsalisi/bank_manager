@@ -5,14 +5,19 @@ from model.account import AccountBalance
 from model.chequing import Chequing
 from model.savings import Savings
 from model.term_savings import TermSavings
+import os
+import os.path
+import csv
+
+FILE = 'account_login.csv'
 
 
 class ControllerFunctions:
 
     def __init__(self):
-        self.chq = Chequing("Justin", "j", 500, 12345)
-        self.sav = Savings("Justin", "j", 500, 12345)
-        self.tsav = TermSavings("Justin", "j", 500, 12345)
+        self.chq = Chequing("Justin", "j", 12345)
+        self.sav = Savings("Justin", "j", 12345)
+        self.tsav = TermSavings("Justin", "j", 12345)
 
         self.model = {
             444001: self.chq,
@@ -104,3 +109,19 @@ class ControllerFunctions:
         except:
             self.view.error("Error: Parameters were not met.")
             print(self.view.deposit_help())
+
+    def update_login(self, FILE):
+        with open(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE)), 'a',
+                  newline='') as myfile:
+            card_num = self.chq._card_num
+            PIN = self.chq._PIN
+            row = [card_num, PIN]
+            header = ['CARD_NUM, PIN']
+            writer = csv.writer(myfile)
+
+            if not os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
+                writer.writerow(header)
+                writer.writerow(row)
+            else:
+                writer.writerow(row)
+        return

@@ -53,3 +53,5 @@ class CommandLineController:
                 self.view.error('\'{}\' not a command.'.format(' '.join(self.cmd)))
             except IndexError:
                 pass
+
+

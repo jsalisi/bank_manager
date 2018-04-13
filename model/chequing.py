@@ -11,8 +11,8 @@ FILE = 'account_info.csv'
 class Chequing(AccountBalance):
     """ Manages the chequing account balance of the the account """
 
-    def __init__(self, acc_fname, acc_lname, acc_bal, PIN):
-        super().__init__(acc_fname, acc_lname, acc_bal, PIN)
+    def __init__(self, acc_fname, acc_lname, acc_bal):
+        super().__init__(acc_fname, acc_lname, acc_bal)
 
         self.acc_type = AccountBalance._CHEQUING
 
