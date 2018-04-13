@@ -1,13 +1,14 @@
+import os
 from os import system
+import os.path
+import csv
+
 from views.cmd_interface.cmd_views import CommandLinePrompts
 
 from model.account import AccountBalance
 from model.chequing import Chequing
 from model.savings import Savings
-from model.term_savings import TermSavings
-import os
-import os.path
-import csv
+
 from model.teller_db import Teller_DB
 from model.account_db import Account_DB
 from model.login_db import Login_DB
@@ -18,15 +19,6 @@ FILE = 'account_login.csv'
 class ControllerFunctions:
 
     def __init__(self):
-        # self.chq = Chequing("Justin", "j", 12345)
-        # self.sav = Savings("Justin", "j", 12345)
-        # self.tsav = TermSavings("Justin", "j", 12345)
-
-        # self.model = {
-        #     444001: self.chq,
-        #     555001: self.sav,
-        #     655001: self.tsav
-        # }
         self.log_db = Teller_DB()
         self.acc_db = Account_DB()
         self.acc_login_db = Login_DB()
@@ -86,8 +78,11 @@ class ControllerFunctions:
         try:
             if args[0][1] == 'info':
                 self.current_card_num = self.view.user_id()
-                c = self.view.display_accounts(['Chq', 'Sav'], self.current_card_num)
-                print(c)
+                accs = []
+                for ac in self.acc_db._accountdb[self.current_card_num]:
+                    accs.append(ac.acc_type)
+                c = int(self.view.display_accounts(accs, self.current_card_num))
+                print(self.acc_db._accountdb[self.current_card_num][c])
             elif args[0][1] == 'transact':
                 self.current_card_num = self.view.user_id()
                 c = self.view.display_accounts(['Chq', 'Sav'], self.current_card_num)
@@ -106,17 +101,24 @@ class ControllerFunctions:
         
     def withdraw(self, *args):
         try:
-            self.model[float(args[0][1])].withdraw(float(args[0][2]))
+            accs = []
+            for ac in self.acc_db._accountdb[args[0][1]]:
+                accs.append(ac.acc_type)
+            c = int(self.view.display_accounts(accs, self.current_card_num))
+            self.acc_db._accountdb[args[0][1]][c].withdraw(float(args[0][2]))
         except:
-            self.view.error("Error: Parameters were not met.")
+            self.view.error("Error.")
             print(self.view.withdraw_help())
 
     def deposit(self, *args):
         try:
-            print(args)
-            self.model[float(args[0][1])].deposit(float(args[0][2]))
+            accs = []
+            for ac in self.acc_db._accountdb[args[0][1]]:
+                accs.append(ac.acc_type)
+            c = int(self.view.display_accounts(accs, self.current_card_num))
+            self.acc_db._accountdb[args[0][1]][c].deposit(float(args[0][2]))
         except:
-            self.view.error("Error: Parameters were not met.")
+            self.view.error("Error.")
             print(self.view.deposit_help())
 
     def update_login(self, FILE):

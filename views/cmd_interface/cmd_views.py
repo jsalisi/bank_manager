@@ -73,7 +73,7 @@ class CommandLinePrompts:
         print("\nAccounts\nCard Number: {}\n".format(user_id))
         for account in accounts:
             print(str(accounts.index(account)+1) + ".)", account)
-        return account[int(input("\nEnter Choice: "))-1]
+        return int(input("\nEnter Choice: "))-1
 
     # Add / Delete Account
     def accounts(self):

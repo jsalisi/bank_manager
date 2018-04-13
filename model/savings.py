@@ -11,19 +11,19 @@ FILE = 'account_info.csv'
 class Savings(AccountBalance):
     """ Manages the savings account balance of the account """
 
-    def __init__(self, acc_fname, acc_lname, acc_bal):
-        super().__init__(acc_fname, acc_lname, acc_bal)
+    def __init__(self, acc_fname, acc_lname, acc_bal, card_num):
+        super().__init__(acc_fname, acc_lname, acc_bal, card_num)
 
         self.acc_type = AccountBalance._SAVINGS
 
         AccountBalance._SAVINGS_ACC_NUM += 1
         self.acc_num = AccountBalance._SAVINGS_ACC_NUM
 
-        if os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
-            self.update_init(FILE)
-        elif not os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
-            self.write_new_file(FILE)
-            self.update_init(FILE)
+        # if os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
+        #     self.update_init(FILE)
+        # elif not os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
+        #     self.write_new_file(FILE)
+        #     self.update_init(FILE)
         return
 
     def charge_service_fee(self):

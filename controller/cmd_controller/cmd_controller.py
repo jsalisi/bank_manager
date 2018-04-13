@@ -7,7 +7,6 @@ from .controller_functions import ControllerFunctions
 from model.account import AccountBalance
 from model.chequing import Chequing
 from model.savings import Savings
-from model.term_savings import TermSavings
 
 class CommandLineController:
 

@@ -22,12 +22,12 @@ class AccountBalance:
     _TERM_SAVINGS_ACC_NUM = 655000
     _CHEQUING_ACC_NUM = 444000
 
-    def __init__(self, acc_fname, acc_lname, acc_bal):
+    def __init__(self, acc_fname, acc_lname, acc_bal, card_num):
         try:
             self.acc_name = "{} {}".format(acc_fname, acc_lname)
             self.acc_bal = acc_bal
             self._PIN = ''
-            self._card_num = ''
+            self._card_num = card_num
         except (ValueError, TypeError):
             print("Invalid input.")
 
@@ -49,7 +49,7 @@ class AccountBalance:
             if amount <= 0:
                 print("Invalid deposit amount.")
             else:
-                self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
+                #self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
                 self.acc_bal += amount
         except (TypeError, ValueError):
             print("Invalid input.")
@@ -60,10 +60,10 @@ class AccountBalance:
 
         try:
             if (amount <= (self.acc_bal+OVERDRAFT)) and (amount > 0) and (self.acc_type == AccountBalance._CHEQUING):
-                self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
+                #self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
                 self.acc_bal -= amount
             elif (amount <= self.acc_bal) and (amount > 0) and (self.acc_type == AccountBalance._SAVINGS):
-                self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
+                #self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
                 self.acc_bal -= amount
             elif amount > self.acc_bal:
                 print("Insufficient Funds")
@@ -85,15 +85,16 @@ class AccountBalance:
             acc_num = str(self.acc_num)
             name = self.acc_name
             balance = str(self.acc_bal)
-            PIN = str(self._PIN)
+            card_num = self._card_num
             acc_type = self.acc_type
-            row = [name, acc_num, acc_type, PIN, balance]
+
+            row = [card_num, name, acc_num, acc_type, balance]
             writer = csv.writer(myfile)
             writer.writerow(row)
         return
 
     def write_new_file(self, FILE):
-        header = ['acc_name', 'acc_number', 'acc_type', 'PIN', 'balance']
+        header = ['card_num', 'acc_name', 'acc_number', 'acc_type', 'balance']
         with open(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE)), 'w', newline='') as myfile:
             writer = csv.writer(myfile)
             writer.writerow(header)

@@ -11,19 +11,19 @@ FILE = 'account_info.csv'
 class Chequing(AccountBalance):
     """ Manages the chequing account balance of the the account """
 
-    def __init__(self, acc_fname, acc_lname, acc_bal):
-        super().__init__(acc_fname, acc_lname, acc_bal)
+    def __init__(self, acc_fname, acc_lname, acc_bal, card_num):
+        super().__init__(acc_fname, acc_lname, acc_bal, card_num)
 
         self.acc_type = AccountBalance._CHEQUING
 
         AccountBalance._CHEQUING_ACC_NUM += 1
         self.acc_num = AccountBalance._CHEQUING_ACC_NUM
 
-        if os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
-            self.update_init(FILE)
-        elif not os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
-            self.write_new_file(FILE)
-            self.update_init(FILE)
+        # if os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
+        #     self.update_init(FILE)
+        # elif not os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
+        #     self.write_new_file(FILE)
+        #     self.update_init(FILE)
 
     def charge_interest(self):
         tr_type = CHARGING_INTEREST

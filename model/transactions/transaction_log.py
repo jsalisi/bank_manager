@@ -24,13 +24,13 @@ class TransactionLog:
 
         self.tr_logs.append(log_str)
 
-        fh = open("./accounts/transactions/logs/{}_logs.csv".format(acc_num), "a")
+        fh = open("./model/transactions/logs/{}_logs.csv".format(acc_num), "a")
         fh.writelines(self.tr_logs)
         fh.close()
 
     def show_transactions(self, acc_num):
         try:
-            with open("./accounts/transactions/logs/{}_logs.csv".format(acc_num), "r") as user_logs:
+            with open("./model/transactions/logs/{}_logs.csv".format(acc_num), "r") as user_logs:
                 for line in user_logs:
                     acc_log = line.rstrip().split(",")
                     print(acc_log)

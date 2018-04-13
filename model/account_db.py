@@ -2,6 +2,10 @@ import csv
 import os
 import os.path
 
+from model.account import AccountBalance
+from model.chequing import Chequing
+from model.savings import Savings
+
 FILE = 'account_info.csv'
 
 
@@ -17,9 +21,21 @@ class Account_DB:
             next(reader, None)
             for lines in reader:
                 try:
-                    self._accountdb[lines[0]].append([lines[1], lines[2], lines[3], lines[4]])
+                    new_acc = ''
+                    if lines[3] == 'Chequing':
+                        split_name = lines[1].split()
+                        new_acc = Chequing(split_name[0], split_name[1], float(lines[4]), lines[0])
+                    elif lines[3] == 'Savings':
+                        new_acc = Savings(split_name[0], split_name[1], float(lines[4]), lines[0])
+                    self._accountdb[lines[0]].append(new_acc)
                 except KeyError:
-                    self._accountdb[lines[0]] = [[lines[1], lines[2], lines[3], lines[4]]]
+                    new_acc = ''
+                    if lines[3] == 'Chequing':
+                        split_name = lines[1].split()
+                        new_acc = Chequing(split_name[0], split_name[1], float(lines[4]), lines[0])
+                    elif lines[3] == 'Savings':
+                        new_acc = Savings(split_name[0], split_name[1], float(lines[4]), lines[0])
+                    self._accountdb[lines[0]] = [new_acc]
         return
 
 if __name__ == '__main__':
