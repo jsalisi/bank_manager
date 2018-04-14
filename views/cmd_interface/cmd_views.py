@@ -14,7 +14,7 @@ class CommandLinePrompts:
     def  startup_prompt(self):
         return "\nSystem Commands:\n"
 
-    # Help
+    # Help view functions
     def help(self):        
         cmd_withdraw =   '      withdraw [account number] [amount]              - Withdraw money from an account'
         cmd_deposit =    '      deposit  [account number] [amount]              - Deposit money to an account\n'

@@ -2,6 +2,7 @@ import os
 from os import system
 import os.path
 import csv
+import platform
 
 from views.cmd_interface.cmd_views import CommandLinePrompts
 
@@ -15,22 +16,37 @@ from model.login_db import Login_DB
 
 from model.transactions.transaction_log import TransactionLog
 
+# Static file names
 FILE = 'account_login.csv'
 DB_FILE = 'account _info.csv'
 
 
 class ControllerFunctions:
+    """
+    This class contains the functions used in the CLI controller
+    and adheres to the MVC model.
+
+    """
+
 
     def __init__(self):
         self.log_db = Teller_DB()
         self.acc_db = Account_DB()
         self.acc_login_db = Login_DB()
         self.transact_log = TransactionLog()
-
         self.view = CommandLinePrompts()
+        
         self.teller_id = ""
         self.current_card_num = ""
         self.login_status = False
+
+        self.clear_cmd = 'cls'
+
+    def determine_platform(self):
+        if platform.system() == 'Windows':
+            self.clear_cmd = 'cls'
+        else:
+            self.clear_cmd = 'clear'
 
     def display_help(self):
         print(self.view.usercfg_help())
@@ -39,14 +55,14 @@ class ControllerFunctions:
 
     def login(self):
         while self.login_status is False:
-            system('cls')
+            system(self.clear_cmd)
             id = self.view.login_id()
             passwd = self.view.login_passwd()
 
             if (id in self.log_db._tellerdb) and (self.log_db._tellerdb[id] == passwd):
                 self.teller_id = id
                 self.login_status = True
-                system('cls')
+                system(self.clear_cmd)
             
             else:
                 self.view.error("Login Failed.")
@@ -85,6 +101,7 @@ class ControllerFunctions:
             
             # Add a new user to the system
             elif args[0][1] == 'add':
+                # Collect new user information
                 new_fname = self.view.new_fname()
                 new_lname = self.view.new_lname()
                 new_num = self.view.add_user_num()
@@ -93,17 +110,20 @@ class ControllerFunctions:
                 new_acc = ''
                 ch = int(self.view.accounts())
 
+                # initialize an account with the new user
                 if ch == 1:
                     new_acc = Chequing(new_fname, new_lname, 0, new_num)
                 elif ch == 2:
                     new_acc = Savings(new_fname, new_lname, 0, new_num)
 
+                # Adding user to the database
                 self.acc_db._accountdb[new_num].append(new_acc)
-
                 self.acc_login_db.update_login(FILE, new_num, new_pin)
 
-        except IndexError:
+        except (KeyError, IndexError):
             self.view.error("Command not specified.")
+            print(self.view.usercfg_help())
+        
 
     def accountcfg(self, *args):
         try:
@@ -148,8 +168,9 @@ class ControllerFunctions:
 
                 self.acc_db._accountdb[self.current_card_num].append(new_acc)
 
-        except IndexError:
+        except (KeyError, IndexError):
             self.view.error("Command not specified.")
+            print(self.view.accountcfg_help())
         
     # Withdraw from a user specified account
     def withdraw(self, *args):
@@ -162,7 +183,7 @@ class ControllerFunctions:
 
             self.acc_db.write_new_file(DB_FILE)
 
-        except:
+        except (KeyError, IndexError):
             self.view.error("Error.")
             print(self.view.withdraw_help())
 
@@ -177,6 +198,6 @@ class ControllerFunctions:
         
             self.acc_db.write_new_file(DB_FILE)
 
-        except:
+        except (KeyError, IndexError):
             self.view.error("Error.")
             print(self.view.deposit_help())
