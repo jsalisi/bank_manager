@@ -60,6 +60,9 @@ class CommandLineController:
                 if self.cmd[0] == 'exit':
                     system(self.functions.clear_cmd)
                     break
+                elif self.cmd[0] == 'logout':
+                    self.startup = True
+                    self.commands[self.cmd[0]]()
                 elif len(self.cmd) == 1:
                     self.commands[self.cmd[0]]()
                 elif len(self.cmd) > 1:
