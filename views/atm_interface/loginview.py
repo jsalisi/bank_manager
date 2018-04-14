@@ -20,9 +20,9 @@ class LoginWindow:
 
         # define frames if needed
         #
-        self.top_frame = Frame(self.master, bg='blue')
-        self.mid_frame = Frame(self.master, bg='red')
-        self.bot_frame = Frame(self.master, bg='green')
+        self.top_frame = Frame(self.master)
+        self.mid_frame = Frame(self.master)
+        self.bot_frame = Frame(self.master)
 
         self.top_frame.grid(row=0, column=0)
         self.mid_frame.grid(row=1, column=0)
