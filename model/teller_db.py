@@ -2,9 +2,17 @@ import csv
 import os
 import os.path
 
+# Static file name
 FILE = 'teller_account.csv'
 
 class Teller_DB:
+    """
+    Reads the credentials found in the teller database to 
+    allow existing users to log in to the command line
+    interface.
+
+    """
+
     def __init__(self):
         self._tellerdb = {}
         self._id = ''

@@ -1,3 +1,4 @@
+import os.path
 from time import localtime, strftime
 from model.constants.transaction_types import *
 
@@ -23,17 +24,16 @@ class TransactionLog:
                            str(n_balance)))
 
         self.tr_logs.append(log_str)
-
-        fh = open("./model/transactions/logs/{}_logs.csv".format(acc_num), "a")
+        fh = open(os.path.join(os.path.dirname(__file__), os.path.join('logs', "{}_logs.csv".format(acc_num))), "a")
         fh.writelines(self.tr_logs)
         fh.close()
 
     def show_transactions(self, acc_num):
         try:
-            with open("./model/transactions/logs/{}_logs.csv".format(acc_num), "r") as user_logs:
+            with open(os.path.join(os.path.dirname(__file__), os.path.join('logs', "{}_logs.csv".format(acc_num))), "r") as user_logs:
                 for line in user_logs:
                     acc_log = line.rstrip().split(",")
-                    print(acc_log)
+                    print(" ".join(acc_log))
         except FileNotFoundError:
             pass
 
