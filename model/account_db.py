@@ -50,11 +50,9 @@ class Account_DB:
                     if item.acc_type == 'Savings':
                         row = [key, item.acc_name, str(item.acc_num), item.acc_type, str(item.acc_bal)]
                         writer.writerow(row)
-                        print(row)
                     elif item.acc_type == 'Chequing':
                         row = [key, item.acc_name, str(item.acc_num), item.acc_type, str(item.acc_bal)]
                         writer.writerow(row)
-                        print(row)
         return
 
 

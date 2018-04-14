@@ -25,11 +25,11 @@ class CommandLinePrompts:
         return "\n{}\n{}\n{}\n{}\n{}".format(cmd_withdraw, cmd_deposit, cmd_logout, cmd_help, cmd_exit)
 
     def usercfg_help(self):
-        cmd_usercfg =    '      user [info / edit / add / del]                  - Opens the user configuration menu'
+        cmd_usercfg =    '      user [info / chk / add]                         - Opens the user configuration menu'
         return "\n{}".format(cmd_usercfg)
 
     def accountcfg_help(self):
-        cmd_accountcfg = '      account [info / transact / bal / add / del]     - Opens the account configuration menu'
+        cmd_accountcfg = '      account [info / transact / bal / add]           - Opens the account configuration menu'
         return "\n{}".format(cmd_accountcfg)
 
     def withdraw_help(self):
@@ -55,30 +55,38 @@ class CommandLinePrompts:
         return input("\nEnter card number: ")
 
     def config_user(self, user_id):
-        return input("\nCard Number: {}\n\n1.) Check Balance\n2.) Transaction Logs\n3.) Delete User\n\nEnter Choice: ".format(user_id))
+        return input("\nCard Number: {}\n\n1.) Check Balance\n2.) Transaction Logs\n\nEnter Choice: ".format(user_id))
 
     # Add User
+    def new_fname(self):
+        return input('\nFirst name: ')
+
+    def new_lname(self):
+        return input('Last name: ')
+
     def add_user_num(self):
         return input("\nNew Bank Number: ")
 
     def add_user_pin(self):
         return getpass.getpass("New PIN: ")
 
-    # Delete User
-    def del_user(self, user_id):
-        return str(input("\nDelete {}? (Y/N)".format(user_id)))
-
     # Display Accounts
     def display_accounts(self, accounts, user_id):
         print("\nAccounts\nCard Number: {}\n".format(user_id))
         for account in accounts:
             print(str(accounts.index(account)+1) + ".)", account)
-        return int(input("\nEnter Choice: "))-1
+        return int(input("\nEnter Choice: "))
 
-    # Add / Delete Account
+    # Add a type of account
     def accounts(self):
-        return input("\nAccounts\n\n1.) Chequing\n\2.) Savings\n\3.) Term Savings\n\nEnter Choice: ")
+        return input("\nAccounts\n\n1.) Chequing\n\2.) Savings\n\nEnter Choice: ")
 
     # Check Balance
     def get_balance(self, account, balance):
         return input("\n{} Balance: ${}. Press Enter to continue.".format(account, balance))
+
+    # Display user info
+    def user_info(self, acc_db):
+        print()
+        for ac in acc_db:
+            print(ac)

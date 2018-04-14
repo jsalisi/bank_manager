@@ -13,7 +13,10 @@ from model.teller_db import Teller_DB
 from model.account_db import Account_DB
 from model.login_db import Login_DB
 
+from model.transactions.transaction_log import TransactionLog
+
 FILE = 'account_login.csv'
+DB_FILE = 'account _info.csv'
 
 
 class ControllerFunctions:
@@ -22,6 +25,7 @@ class ControllerFunctions:
         self.log_db = Teller_DB()
         self.acc_db = Account_DB()
         self.acc_login_db = Login_DB()
+        self.transact_log = TransactionLog()
 
         self.view = CommandLinePrompts()
         self.teller_id = ""
@@ -43,6 +47,7 @@ class ControllerFunctions:
                 self.teller_id = id
                 self.login_status = True
                 system('cls')
+            
             else:
                 self.view.error("Login Failed.")
 
@@ -51,31 +56,58 @@ class ControllerFunctions:
 
     def usercfg(self, *args):
         try:
+            # Display all user information: Name, Accounts, Account Types, Balances
             if args[0][1] == 'info':
-                print("\nDisplaying User Info: ")
-            elif args[0][1] == 'edit':
-                print(self.acc_db._accountdb)
                 self.current_card_num = self.view.user_id()
-                choice = self.view.config_user(self.current_card_num)
-
+                self.view.user_info(self.acc_db._accountdb[self.current_card_num])
+            
+            # Check specific user information
+            elif args[0][1] == 'chk':
+                self.current_card_num = self.view.user_id()
+                choice = int(self.view.config_user(self.current_card_num))
+                
+                # Check balance of specific account
                 if choice == 1:
-                    self.view.display_accounts(self.acc_db._accountdb[self.current_card_num], self.current_card_num)
+                    accs = []
+                    for ac in self.acc_db._accountdb[self.current_card_num]:
+                        accs.append(ac.acc_type)
+                    c = self.view.display_accounts(accs, self.current_card_num)
+                    
+                    acc_type =  self.acc_db._accountdb[self.current_card_num][c-1].acc_type
+                    c_bal = self.acc_db._accountdb[self.current_card_num][c-1].get_balance
+
+                    self.view.get_balance(acc_type, c_bal)
+                
+                # Display transactions of specified account
                 elif choice == 2:
-                    print('Displaying Transaction Logs ')
-                elif choice == 3:
-                    self.view.del_user(self.current_card_num)
+                    for acc in self.acc_db._accountdb[self.current_card_num]:
+                        self.transact_log.show_transactions(acc.acc_num)
+            
+            # Add a new user to the system
             elif args[0][1] == 'add':
-                self.view.add_user_num()
-                self.view.add_user_pin()
-            elif args[0][1] == 'del':
-                self.current_card_num = self.view.user_id()
-                self.view.del_user(self.current_card_num)
+                new_fname = self.view.new_fname()
+                new_lname = self.view.new_lname()
+                new_num = self.view.add_user_num()
+                new_pin = self.view.add_user_pin()
+
+                new_acc = ''
+                ch = int(self.view.accounts())
+
+                if ch == 1:
+                    new_acc = Chequing(new_fname, new_lname, 0, new_num)
+                elif ch == 2:
+                    new_acc = Savings(new_fname, new_lname, 0, new_num)
+
+                self.acc_db._accountdb[new_num].append(new_acc)
+
+                self.acc_login_db.update_login(FILE, new_num, new_pin)
 
         except IndexError:
             self.view.error("Command not specified.")
 
     def accountcfg(self, *args):
         try:
+            # Show specific account info
             if args[0][1] == 'info':
                 self.current_card_num = self.view.user_id()
                 accs = []
@@ -83,10 +115,15 @@ class ControllerFunctions:
                     accs.append(ac.acc_type)
                 c = int(self.view.display_accounts(accs, self.current_card_num))
                 print(self.acc_db._accountdb[self.current_card_num][c])
+           
+           # Show specific account transactions
             elif args[0][1] == 'transact':
                 self.current_card_num = self.view.user_id()
-                c = self.view.display_accounts(['Chq', 'Sav'], self.current_card_num)
-                print(c)
+                c = self.view.display_accounts(accs, self.current_card_num)
+                acc_num =  self.acc_db._accountdb[self.current_card_num][c-1].acc_num
+                self.transact_log.show_transactions(acc_num)
+            
+            # Show specific account balance
             elif args[0][1] == 'bal':
                 self.current_card_num = self.view.user_id()
                 accs = []
@@ -96,47 +133,50 @@ class ControllerFunctions:
                 a = self.acc_db._accountdb[self.current_card_num][c].acc_type
                 b = self.acc_db._accountdb[self.current_card_num][c].get_balance
                 self.view.get_balance(a, b)
+            
+            # Add a new account to a user
             elif args[0][1] == 'add':
-                self.view.accounts()
-            elif args[0][1] == 'del':
-                self.view.accounts()
+                new_acc = ''
+                self.current_card_num = self.view.user_id()
+                name = self.acc_db._accountdb[self.current_card_num][0].acc_name.split()
+                ch = int(self.view.accounts())
+
+                if ch == 1:
+                    new_acc = Chequing(name[0], name[0], 0, self.current_card_num)
+                elif ch == 2:
+                    new_acc = Savings(name[0], name[0], 0, self.current_card_num)
+
+                self.acc_db._accountdb[self.current_card_num].append(new_acc)
+
         except IndexError:
             self.view.error("Command not specified.")
         
+    # Withdraw from a user specified account
     def withdraw(self, *args):
         try:
             accs = []
             for ac in self.acc_db._accountdb[args[0][1]]:
                 accs.append(ac.acc_type)
             c = int(self.view.display_accounts(accs, self.current_card_num))
-            self.acc_db._accountdb[args[0][1]][c].withdraw(float(args[0][2]))
+            self.acc_db._accountdb[args[0][1]][c-1].withdraw(float(args[0][2]))
+
+            self.acc_db.write_new_file(DB_FILE)
+
         except:
             self.view.error("Error.")
             print(self.view.withdraw_help())
 
+    # Deposit to a user specified account
     def deposit(self, *args):
         try:
             accs = []
             for ac in self.acc_db._accountdb[args[0][1]]:
                 accs.append(ac.acc_type)
             c = int(self.view.display_accounts(accs, self.current_card_num))
-            self.acc_db._accountdb[args[0][1]][c].deposit(float(args[0][2]))
+            self.acc_db._accountdb[args[0][1]][c-1].deposit(float(args[0][2]))
+        
+            self.acc_db.write_new_file(DB_FILE)
+
         except:
             self.view.error("Error.")
             print(self.view.deposit_help())
-
-    def update_login(self, FILE):
-        with open(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE)), 'a',
-                  newline='') as myfile:
-            card_num = self.chq._card_num
-            PIN = self.chq._PIN
-            row = [card_num, PIN]
-            header = ['CARD_NUM, PIN']
-            writer = csv.writer(myfile)
-
-            if not os.path.isfile(os.path.join(os.path.dirname(__file__), os.path.join('Accounts', FILE))):
-                writer.writerow(header)
-                writer.writerow(row)
-            else:
-                writer.writerow(row)
-        return

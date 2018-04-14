@@ -35,8 +35,8 @@ class AccountBalance:
         self.t_logs = TransactionLog()
 
     def __str__(self):
-        acc_info = ("Account Number: {}, Name: {}, Balance: ${}, Type: {}") \
-            .format(self.acc_num, self.acc_name, self.acc_bal, self.acc_type)
+        acc_info = (" Name: {}, Account Number: {}, Type: {}, Balance: ${}") \
+            .format(self.acc_name, self.acc_num, self.acc_type, self.acc_bal)
         return acc_info
 
     @property
@@ -49,7 +49,7 @@ class AccountBalance:
             if amount <= 0:
                 print("Invalid deposit amount.")
             else:
-                #self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
+                self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
                 self.acc_bal += amount
         except (TypeError, ValueError):
             print("Invalid input.")
@@ -60,10 +60,10 @@ class AccountBalance:
 
         try:
             if (amount <= (self.acc_bal+OVERDRAFT)) and (amount > 0) and (self.acc_type == AccountBalance._CHEQUING):
-                #self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
+                self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
                 self.acc_bal -= amount
             elif (amount <= self.acc_bal) and (amount > 0) and (self.acc_type == AccountBalance._SAVINGS):
-                #self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
+                self.t_logs.add_log(self.acc_num, tr_type, amount, self.acc_bal)
                 self.acc_bal -= amount
             elif amount > self.acc_bal:
                 print("Insufficient Funds")
