@@ -13,7 +13,6 @@ class AccountBalance:
 
     #  Account types
     _SAVINGS = "Savings"
-    _TERM_SAViNGS = "Term Savings"
     _CHEQUING = "Chequing"
     _DEFAULT_TYPE = "Chequing"
 
@@ -23,6 +22,17 @@ class AccountBalance:
     _CHEQUING_ACC_NUM = 444000
 
     def __init__(self, acc_fname, acc_lname, acc_bal, card_num):
+        """
+        Initializes an account with specified names, balance, 
+        and card number it's tied to.
+        
+        Args:
+            acc_fname (string): The first name of a user
+            acc_lname (string): The last name of a user
+            acc_bal (float): The account balance of the user
+            card_num (string): User's bank card number
+        """
+
         try:
             self.acc_name = "{} {}".format(acc_fname, acc_lname)
             self.acc_bal = acc_bal

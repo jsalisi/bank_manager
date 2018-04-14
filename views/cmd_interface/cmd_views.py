@@ -79,7 +79,7 @@ class CommandLinePrompts:
 
     # Add a type of account
     def accounts(self):
-        return input("\nAccounts\n\n1.) Chequing\n\2.) Savings\n\nEnter Choice: ")
+        return input("\nAccounts\n\n1.) Chequing\n2.) Savings\n\nEnter Choice: ")
 
     # Check Balance
     def get_balance(self, account, balance):

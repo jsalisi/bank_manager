@@ -6,10 +6,19 @@ from model.account import AccountBalance
 from model.chequing import Chequing
 from model.savings import Savings
 
+
+# Static file name
 FILE = 'account_info.csv'
 
 
 class Account_DB:
+    """
+    Converts the account abject data into account information for database storage.
+    Can also read from the database and convert account information into objects.
+
+    """
+
+
     def __init__(self):
         self._accountdb = {}
         self.read_file(FILE)

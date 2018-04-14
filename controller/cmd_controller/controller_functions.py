@@ -18,7 +18,7 @@ from model.transactions.transaction_log import TransactionLog
 
 # Static file names
 FILE = 'account_login.csv'
-DB_FILE = 'account _info.csv'
+DB_FILE = 'account_info.csv'
 
 
 class ControllerFunctions:
@@ -117,11 +117,14 @@ class ControllerFunctions:
                     new_acc = Savings(new_fname, new_lname, 0, new_num)
 
                 # Adding user to the database
+                self.acc_db._accountdb[new_num] = []
                 self.acc_db._accountdb[new_num].append(new_acc)
                 self.acc_login_db.update_login(FILE, new_num, new_pin)
+                
+                self.acc_db.write_new_file(DB_FILE)
 
         except (KeyError, IndexError):
-            self.view.error("Command not specified.")
+            self.view.error("Error.")
             print(self.view.usercfg_help())
         
 

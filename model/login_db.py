@@ -2,9 +2,16 @@ import csv
 import os
 import os.path
 
+# Static file name
 FILE = 'account_login.csv'
 
 class Login_DB:
+    """
+    Allows ATM users to log in if their credentials match
+    the user's login database.
+
+    """
+
     def __init__(self):
         self._logindb = {}
         self._card_num = ''
